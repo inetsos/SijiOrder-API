@@ -3,6 +3,9 @@ var bcrypt = require('bcrypt-nodejs');
 
 // schema
 var userSchema = mongoose.Schema({
+    group: {
+        type: String,
+    },
     username: {
         type: String,
         required: [true, '아이디를 입력하세요.'],
@@ -20,6 +23,11 @@ var userSchema = mongoose.Schema({
         type:String,
         trim:true
     },
+    storeName:{
+        type:String,
+        match:[/^.{2,40}$/,'2~40글자입니다.'],
+        trim:true
+    },
     phone:{
         type:String,
         required:[true,'휴대폰번호를 입력하세요.'],
@@ -35,7 +43,7 @@ var userSchema = mongoose.Schema({
         type:Date, 
         default:Date.now
     }
-},{
+}, {
     toObject:{ virtuals:true }
 });
 

@@ -11,7 +11,7 @@ router.get('/', util.isLoggedin, function(req,res,next){
 });
 
 // create
-router.post('/', function(req,res,next){
+router.post('/', function(req,res,next) {
     var newUser = new User(req.body);
     newUser.save(function(err,user){
         res.json(err||!user? util.successFalse(err): util.successTrue(user));
@@ -33,11 +33,11 @@ router.put('/:username', util.isLoggedin, checkPermission, function(req,res,next
 
         // update user object
         user.originalPassword = user.password;
-        user.password = req.body.newPassword ? req.body.newPassword : user.password;
+        user.password = req.body.newPassword ? req.body.newPassword : user.password;        
         for(var p in req.body) {
             user[p] = req.body[p];
         }
-
+        // console.log(user);
         // save updated user
         user.save(function(err,user) {
             if( err || !user ) return res.json(util.successFalse(err));
