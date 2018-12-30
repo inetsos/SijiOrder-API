@@ -6,7 +6,7 @@ var mongoose   = require('mongoose');
 var bodyParser = require('body-parser');
 
 // Database
-console.log(process.env.MONGO_SIJIORDER)
+console.log(process.env.MONGO_SIJIORDER);
 mongoose.Promise = global.Promise;
 mongoose.connect(process.env.MONGO_SIJIORDER, { useCreateIndex: true, useNewUrlParser: true} );
 var db = mongoose.connection;
@@ -31,6 +31,7 @@ app.use(function (req, res, next) {
 // API
 app.use('/api/users', require('./api/users'));
 app.use('/api/auth', require('./api/auth'));
+app.use('/api/menus', require('./api/menus'));
 
 app.get("/", function(req, res) {
   res.send("주문할 땐? 시지오더 SiJiOrder !!!");

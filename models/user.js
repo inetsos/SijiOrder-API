@@ -16,7 +16,7 @@ var userSchema = mongoose.Schema({
     password:{
         type:String,
         required:[true,'비밀번호를 입력하세요.'],
-        match: [/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,'8자 이상으로 하나 이상의 문자, 숫자, 특수문자를 포함해야 합니다.'],
+        match: [/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?.&]{8,}$/,'8자 이상으로 하나 이상의 문자, 숫자, 특수문자를 포함해야 합니다.'],
         select:false
     },
     name:{
@@ -65,7 +65,7 @@ userSchema.virtual('newPassword')
     .set(function(value){ this._newPassword=value; });
 
 // password validation
-var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?.&]{8,}$/;
 var passwordRegexErrorMessage = '8자 이상으로 하나 이상의 문자, 숫자, 특수문자를 포함해야 합니다.';
 userSchema.path('password').validate(function(v) {
     var user = this;
@@ -84,7 +84,7 @@ userSchema.path('password').validate(function(v) {
     }
 
     // update user
-    if(!user.isNew){
+    if(!user.isNew) {
         if(!user.currentPassword){
             user.invalidate('currentPassword', '비밀번호를 입력하세요.');
         }
@@ -93,7 +93,7 @@ userSchema.path('password').validate(function(v) {
             user.invalidate('currentPassword', '비밀번호가 일치하지 않습니다.');
         }
 
-        if(user.newPassword && !passwordRegex.test(user.newPassword)){
+        if(user.newPassword && !passwordRegex.test(user.newPassword)) { 
             user.invalidate('newPassword', passwordRegexErrorMessage);
         } else if(user.newPassword !== user.confirmPassword) {
             user.invalidate('confirmPassword', '비밀번호 확인이 일치하지 않습니다.');

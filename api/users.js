@@ -37,9 +37,9 @@ router.put('/:username', util.isLoggedin, checkPermission, function(req,res,next
         for(var p in req.body) {
             user[p] = req.body[p];
         }
-        // console.log(user);
+        
         // save updated user
-        user.save(function(err,user) {
+        user.save(function(err, user) {
             if( err || !user ) return res.json(util.successFalse(err));
             else {
                 user.password = undefined;
