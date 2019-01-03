@@ -10,6 +10,16 @@ router.get('/:username', util.isLoggedin, function(req,res,next) {
     });
 });
 
+// MyModel.find().distinct('_id', function(error, ids) {
+//     // ids is an array of all ObjectIds
+//     });
+
+// router.get('/groups/:username', util.isLoggedin, function(req,res,next) {
+//     Menu.find({username: req.params.username}).distinct({menuNo:1}).exec(function(err,menus) {
+//         res.json( err || !menus ? util.successFalse(err) : util.successTrue(menus));
+//     });
+// });
+
 // create
 router.post('/', function(req,res,next) {
     var newMenu = new Menu(req.body);

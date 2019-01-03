@@ -13,7 +13,7 @@ var storeSchema = mongoose.Schema({
     password:{
         type:String,
         required:[true,'비밀번호를 입력하세요.'],
-        match: [/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,'8자 이상으로 하나 이상의 문자, 숫자, 특수문자를 포함해야 합니다.'],
+        match: [/^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.]).{8,}$/,'8자 이상으로 하나 이상의 문자, 숫자, 특수문자를 포함해야 합니다.'],
         select:false
     },
     name:{
@@ -63,7 +63,7 @@ storeSchema.virtual('newPassword')
     .set(function(value){ this._newPassword=value; });
 
 // password validation
-var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+var passwordRegex = /^(?=.*?[A-Za-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.]).{8,}$/;
 var passwordRegexErrorMessage = '8자 이상으로 하나 이상의 문자, 숫자, 특수문자를 포함해야 합니다.';
 storeSchema.path('password').validate(function(v) {
     var user = this;

@@ -5,7 +5,13 @@ var util     = require('../util');
 
 // index
 router.get('/', util.isLoggedin, function(req,res,next){
-    User.find({}).sort({userID:1}).exec(function(err,users){
+    User.find({}).sort({username:1}).exec(function(err,users){
+        res.json( err || !users ? util.successFalse(err) : util.successTrue(users));
+    });
+});
+
+router.get('/stores', util.isLoggedin, function(req,res,next){
+    User.find({group: '가맹점'}).sort({storeName:1}).exec(function(err,users){
         res.json( err || !users ? util.successFalse(err) : util.successTrue(users));
     });
 });
@@ -13,7 +19,9 @@ router.get('/', util.isLoggedin, function(req,res,next){
 // create
 router.post('/', function(req,res,next) {
     var newUser = new User(req.body);
-    newUser.save(function(err,user){
+    newUser.save(function(err, user) {
+        console.log(err);
+        console.log(user);
         res.json(err||!user? util.successFalse(err): util.successTrue(user));
     });
 });

@@ -32,6 +32,7 @@ app.use(function (req, res, next) {
 app.use('/api/users', require('./api/users'));
 app.use('/api/auth', require('./api/auth'));
 app.use('/api/menus', require('./api/menus'));
+app.use('/api/settings', require('./api/settings'));
 
 app.get("/", function(req, res) {
   res.send("주문할 땐? 시지오더 SiJiOrder !!!");
