@@ -10,7 +10,7 @@ router.get('/', util.isLoggedin, function(req,res,next){
     });
 });
 
-router.get('/stores', util.isLoggedin, function(req,res,next){
+router.get('/stores', function(req,res,next){
     User.find({group: '가맹점'}).sort({storeName:1}).exec(function(err,users){
         res.json( err || !users ? util.successFalse(err) : util.successTrue(users));
     });
@@ -28,6 +28,12 @@ router.post('/', function(req,res,next) {
 
 // show
 router.get('/:username', util.isLoggedin, function(req,res,next){
+    User.findOne({username: req.params.username}).exec(function(err,user) {
+        res.json( err || !user ? util.successFalse(err) : util.successTrue(user));
+    });
+});
+
+router.get('/store/:username', function(req,res,next){
     User.findOne({username: req.params.username}).exec(function(err,user) {
         res.json( err || !user ? util.successFalse(err) : util.successTrue(user));
     });

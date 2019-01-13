@@ -4,7 +4,7 @@ var Menu     = require('../models/menu');
 var util     = require('../util');
 
 // index
-router.get('/:username', util.isLoggedin, function(req,res,next) {
+router.get('/:username', function(req,res,next) {
     Menu.find({username: req.params.username}).sort({menuNo:1}).exec(function(err,menus) {
         res.json( err || !menus ? util.successFalse(err) : util.successTrue(menus));
     });
