@@ -11,6 +11,18 @@ var orderSchema = mongoose.Schema({
     username:{  // 회원
         type:String
     },
+    phoneno:{  // 비회원 전화번호
+        type:String,
+        default: ''
+    },
+    password:{  // 비회원 비밀번호
+        type:String,
+        default: ''
+    },
+    type:{  // 0: 회원, 1: 비회원
+        type:Number,
+        default: 0
+    },
     tableNo:{
         type:Number
     },

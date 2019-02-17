@@ -34,13 +34,16 @@ app.use('/api/auth', require('./api/auth'));
 app.use('/api/menus', require('./api/menus'));
 app.use('/api/settings', require('./api/settings'));
 app.use('/api/orders', require('./api/orders'));
+app.use('/api/fcms', require('./api/fcms'));
+app.use('/api/sms', require('./api/sms'));
+app.use('/chatbot/skill', require('./chatbot/skill'));
 
 app.get("/", function(req, res) {
   res.send("주문할 땐? 시지오더 SiJiOrder !!!");
 });
 
 var hostname = 'sijiorder-api.orderfood.co.kr';
-var port = 2020;
+var port = 8080;
 
 var server = express();
 server.use(vhost(hostname, app));

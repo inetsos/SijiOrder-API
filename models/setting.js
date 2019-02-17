@@ -3,6 +3,9 @@ var mongoose = require('mongoose');
 // 설정 - username, type, value
 // schema
 var settingSchema = mongoose.Schema({
+    no: {
+        type: Number
+    },
     type: {
         type:String,
         required:[true,'설정타입을 입력하세요.'],
@@ -11,9 +14,11 @@ var settingSchema = mongoose.Schema({
     },
     content: {
         type:String,
-        required:[true,'설정내용을 입력하세요.'],
-        match: [/^.{2,50}$/,'2~50 글자입니다.'],
         trim:true
+    },
+    apply: {
+        type: Number,
+        default: 1
     },
     username: {
         type:String,

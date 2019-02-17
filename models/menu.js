@@ -36,6 +36,12 @@ var menuSchema = mongoose.Schema({
         type:String,
         trim:true
     },
+    premia : [
+        {
+            size: { type: String }, 
+            premium_price: { type: Number}
+        }
+    ]
 });
 
 

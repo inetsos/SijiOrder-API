@@ -23,6 +23,7 @@ router.get('/:username', function(req,res,next) {
 // create
 router.post('/', function(req,res,next) {
     var newMenu = new Menu(req.body);
+    // console.log(newMenu);
     newMenu.save(function(err,menu) {
         res.json( err || !menu ? util.successFalse(err) : util.successTrue(menu));
     });

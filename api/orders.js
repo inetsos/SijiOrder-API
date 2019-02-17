@@ -31,8 +31,6 @@ router.get('/today/:storename/:today', util.isLoggedin, function(req,res,next) {
     .populate('ordermenu')
     .sort({orderNo:1})
     .exec(function(err, orders) {
-        console.log(err);
-        console.log(orders);
         res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
     });
 });
@@ -80,6 +78,16 @@ router.get('/ordering/:storename/:username', util.isLoggedin, function(req,res,n
     });
 });
 
+router.get('/nonmember/:storename/:phoneno', function(req,res,next) {
+    Order.findOne({storename: req.params.storename, phoneno: req.params.phoneno, status: {$in: ['선택', '주문', '접수']}})
+    .populate('ordermenu')
+    .sort({orderNo:-1})
+    .exec(function(err, orders) {
+        res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
+    });
+});
+
+
 router.post('/order', function(req,res,next){
     var newOrder = new Order(req.body);
     newOrder.save(function(err, order){
@@ -95,7 +103,7 @@ router.post('/ordermenu', function(req,res,next){
 });
 
 // 주문정보를 수정한다. ( 주문 메뉴의 추가 등 )
-router.put('/order/:id', util.isLoggedin, function(req,res,next){
+router.put('/order/:id', function(req,res,next){
     Order.findOne({_id: req.params.id}).exec(function(err, order){
         if( err || !order ) 
             return res.json(util.successFalse(err));
@@ -113,7 +121,7 @@ router.put('/order/:id', util.isLoggedin, function(req,res,next){
     });
 });
 
-router.put('/ordermenu/:id', util.isLoggedin, function(req,res,next){
+router.put('/ordermenu/:id', function(req,res,next){
     OrderMenu.findOne({_id: req.params.id}).exec(function(err, ordermenu){
         if( err || !ordermenu ) 
             return res.json(util.successFalse(err));
@@ -132,13 +140,13 @@ router.put('/ordermenu/:id', util.isLoggedin, function(req,res,next){
 });
 
 // 주문메뉴를 삭제한다.
-router.delete('/order/:id', util.isLoggedin, function(req,res,next){
+router.delete('/order/:id', function(req,res,next){
     Order.findOneAndRemove({_id: req.params.id}).exec(function(err, order) { 
         res.json(err || !order? util.successFalse(err) : util.successTrue(order));
     });
 });
 
-router.delete('/ordermenu/:id', util.isLoggedin, function(req,res,next){
+router.delete('/ordermenu/:id', function(req,res,next){
     OrderMenu.findOneAndRemove({_id: req.params.id}).exec(function(err, ordermenu) { 
         res.json(err || !ordermenu? util.successFalse(err) : util.successTrue(ordermenu));
     });

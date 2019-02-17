@@ -61,24 +61,24 @@ function get2digits (num) {
 util.getDate = function(mydate) {
     //var mydate = new Date();
     return mydate.getFullYear() + "-" + get2digits(mydate.getMonth()+1) + "-" + get2digits(mydate.getDate());
-}
+};
 
 util.getTime = function(mydate) {
     //var mydate = new Date();
     return get2digits(mydate.getHours()) + ":" + get2digits(mydate.getMinutes()+1) + ":" + get2digits(mydate.getSeconds());
-}
+};
 
 util.getDateTime = function(mydate) {
     //var mydate = new Date();
-    return mydate.getFullYear() + "-" + get2digits(mydate.getMonth()+1) + "-" + get2digits(mydate.getDate()) + " " 
-        + get2digits(mydate.getHours()) + ":" + get2digits(mydate.getMinutes()+1) + ":" + get2digits(mydate.getSeconds());
-}
+    return mydate.getFullYear() + "-" + get2digits(mydate.getMonth()+1) + "-" + get2digits(mydate.getDate()) + " " + 
+        get2digits(mydate.getHours()) + ":" + get2digits(mydate.getMinutes()+1) + ":" + get2digits(mydate.getSeconds());
+};
 
 util.getDateTimeStr = function() {
     var mydate = new Date();
-    return mydate.getFullYear() +  get2digits(mydate.getMonth()+1) + get2digits(mydate.getDate())
-            + get2digits(mydate.getHours()) + get2digits(mydate.getMinutes())  + get2digits(mydate.getSeconds());
-}
+    return mydate.getFullYear() +  get2digits(mydate.getMonth()+1) + get2digits(mydate.getDate()) + 
+        get2digits(mydate.getHours()) + get2digits(mydate.getMinutes())  + get2digits(mydate.getSeconds());
+};
 
 module.exports = util;
 
