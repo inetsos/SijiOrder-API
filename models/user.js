@@ -9,7 +9,7 @@ var userSchema = mongoose.Schema({
     username: {
         type: String,
         required: [true, '아이디를 입력하세요.'],
-        match: [/^[A-Za-z0-9+]{8,16}$/,'8~16사이의 영문과 숫자 조합 입니다 .'],
+        match: [/^[A-Za-z0-9+]{6,16}$/,'6~16사이의 영문과 숫자 조합 입니다 .'],
         trim:true,
         unique:true
     },
@@ -37,6 +37,18 @@ var userSchema = mongoose.Schema({
     email:{
         type:String,
         match:[/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,'메일주소를 입력하세요.'],
+        trim:true
+    },
+    roadAddr:{
+        type:String,
+        trim:true
+    },
+    jibunAddr:{
+        type:String,
+        trim:true
+    },
+    detailAddr:{
+        type:String,
         trim:true
     },
     createdAt:{

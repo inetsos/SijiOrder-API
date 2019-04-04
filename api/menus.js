@@ -24,9 +24,16 @@ router.get('/:username', function(req,res,next) {
 router.post('/', function(req,res,next) {
     var newMenu = new Menu(req.body);
     // console.log(newMenu);
-    newMenu.save(function(err,menu) {
-        res.json( err || !menu ? util.successFalse(err) : util.successTrue(menu));
+    Menu.findOne({username: newMenu.username, menuNo: newMenu.menuNo}).exec(function(err,menu) {
+        if (err || menu) {
+            res.json(util.successFalse(null,'이미 등록된 메뉴번호입니다.'));
+        } else {
+            newMenu.save(function(err,menu) {
+                res.json( err || !menu ? util.successFalse(err) : util.successTrue(menu));
+            });
+        }
     });
+    
 });
 
 // show

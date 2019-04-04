@@ -27,7 +27,7 @@ router.post('/login', function(req,res,next) {
     else 
         next();
 }, function(req,res,next) {
-    User.findOne({username:req.body.username}).select({password:1,username:1,name:1,email:1}).exec(function(err,user) {
+    User.findOne({username:req.body.username, group: req.body.group}).select({password:1,username:1,name:1,email:1}).exec(function(err,user) {
         if(err) 
             return res.json(util.successFalse(err));
         else if(!user||!user.authenticate(req.body.password))

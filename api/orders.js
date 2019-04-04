@@ -7,12 +7,10 @@ var moment = require('moment');
 
 // 가맹점 회원의 모든 주문을 보낸다.
 router.get('/:storename', util.isLoggedin, function(req,res,next) {
-    Order.find({storename: req.params.storename})
-    .populate('ordermenu')
-    .sort({orderNo:1})
-    .exec(function(err, orders) {
-        res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
-    });
+    Order.find({storename: req.params.storename}).sort({orderNo:1})
+        .exec(function(err, orders) {
+            res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
+        });
 });
 
 // 가맹점의 오늘 주문
@@ -27,78 +25,100 @@ router.get('/today/:storename/:today', util.isLoggedin, function(req,res,next) {
     var today = moment(tmp).format('YYYY-MM-DD');
     var tomorrow = moment(moment(tmp).add(1, 'days')).format('YYYY-MM-DD');
 
-    Order.find({storename: req.params.storename, createdAt: {$gte: today, $lt: tomorrow}})
-    .populate('ordermenu')
-    .sort({orderNo:1})
-    .exec(function(err, orders) {
-        res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
-    });
+    Order.find({storename: req.params.storename, createdAt: {$gte: today, $lt: tomorrow}}).sort({orderNo:1})
+        .exec(function(err, orders) {
+            res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
+        });
 });
 
 // 내 주문 조회
 // router.get('/myorder/:username/:today', util.isLoggedin, function(req,res,next) {
 router.get('/myorder/:username', util.isLoggedin, function(req,res,next) {
 
-    // var str = req.params.today.split('-');
-    // var year = Number(str[0]);
-    // var month = Number(str[1]) - 1;
-    // var date = Number(str[2]);
+    Order.find({username: req.params.username}).sort({_id:-1})
+        .exec(function(err, orders) {
+            res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
+        });
+});
 
-    // var tmp =  new Date(year, month, date);
-    // var today = moment(tmp).format('YYYY-MM-DD');
-    // var tomorrow = moment(moment(tmp).add(1, 'days')).format('YYYY-MM-DD');
+router.get('/myorder/today/:username/:today', util.isLoggedin, function(req,res,next) {
 
-    // Order.find({username: req.params.username, createdAt: {$gte: today, $lt: tomorrow}})
-    Order.find({username: req.params.username})
-    .populate('ordermenu')
-    .sort({orderNo:-1})
-    .exec(function(err, orders) {
-        res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
-    });
+    var str = req.params.today.split('-');
+    var year = Number(str[0]);
+    var month = Number(str[1]) - 1;
+    var date = Number(str[2]);
+
+    var tmp =  new Date(year, month, date);
+    var today = moment(tmp).format('YYYY-MM-DD');
+    var tomorrow = moment(moment(tmp).add(1, 'days')).format('YYYY-MM-DD');
+
+    Order.find({username: req.params.username, createdAt: {$gte: today, $lt: tomorrow}}).sort({_id:-1})
+        .exec(function(err, orders) {
+            res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
+        });
 });
 
 
 // 가장 최근의 주문을 얻는다.
 router.get('/last/:storename/:username', util.isLoggedin, function(req,res,next) {
-    Order.findOne({storename: req.params.storename, username: req.params.username})
-    .populate('ordermenu')
-    .sort({orderNo:-1})
-    .exec(function(err, order) {
-        res.json( err || !order ? util.successFalse(err) : util.successTrue(order));
-    });
+    Order.findOne({storename: req.params.storename, username: req.params.username}).sort({_id:-1})
+        .exec(function(err, order) {
+            res.json( err || !order ? util.successFalse(err) : util.successTrue(order));
+        });
 });
 
 // 현재 주문중인 주문서를 보낸다.
 router.get('/ordering/:storename/:username', util.isLoggedin, function(req,res,next) {
-    Order.findOne({storename: req.params.storename, username: req.params.username, status: {$in: ['선택', '주문', '접수']}})
-    .populate('ordermenu')
-    .sort({orderNo:-1})
-    .exec(function(err, orders) {
-        res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
-    });
+    Order.findOne({storename: req.params.storename, username: req.params.username, status: {$in: ['선택'/*, '주문', '접수', '차림'*/]}})
+        .sort({_id:-1})
+        .exec(function(err, orders) {
+            res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
+        });
 });
 
 router.get('/nonmember/:storename/:phoneno', function(req,res,next) {
-    Order.findOne({storename: req.params.storename, phoneno: req.params.phoneno, status: {$in: ['선택', '주문', '접수']}})
-    .populate('ordermenu')
-    .sort({orderNo:-1})
-    .exec(function(err, orders) {
-        res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
-    });
+    Order.findOne({storename: req.params.storename, phoneno: req.params.phoneno, status: {$in: ['선택'/*, '주문', '접수', '차림'*/]}})
+        .sort({_id:-1})
+        .exec(function(err, orders) {
+            res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
+        });
+});
+
+router.get('/nonmember/today/:storename/:phoneno', function(req,res,next) {
+   
+    Order.findOne({storename: req.params.storename, phoneno: req.params.phoneno})
+        .sort({_id:-1})
+        .exec(function(err, orders) {
+            res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
+        });
+});
+
+router.get('/nonmember/today/:storename/:phoneno/:today', function(req,res,next) {
+    var str = req.params.today.split('-');
+    var year = Number(str[0]);
+    var month = Number(str[1]) - 1;
+    var date = Number(str[2]);
+
+    var tmp =  new Date(year, month, date);
+    var today = moment(tmp).format('YYYY-MM-DD');
+    var tomorrow = moment(moment(tmp).add(1, 'days')).format('YYYY-MM-DD');
+    Order.find({storename: req.params.storename, phoneno: req.params.phoneno, createdAt: {$gte: today, $lt: tomorrow}})
+        .sort({_id:-1})
+        .exec(function(err, orders) {
+            res.json( err || !orders ? util.successFalse(err) : util.successTrue(orders));
+        });
 });
 
 
-router.post('/order', function(req,res,next){
-    var newOrder = new Order(req.body);
-    newOrder.save(function(err, order){
-        res.json(err || !order ? util.successFalse(err) : util.successTrue(order));
-    });
-});
-
-router.post('/ordermenu', function(req,res,next){
-    var newOrdermenu = new OrderMenu(req.body);
-    newOrdermenu.save(function(err, ordermenu){
-        res.json(err || !ordermenu ? util.successFalse(err) : util.successTrue(ordermenu));
+router.post('/order', function(req,res,next) {
+    // 사용자에 대한 최대 주문번호를 얻어서 추가한다.
+    Order.findOne({username: req.body.username}).sort({orderNo:-1})
+    .exec(function(err, order) {
+        var newOrder = new Order(req.body);
+        newOrder.orderNo = order.orderNo + 1;
+        newOrder.save(function(err, order){
+            res.json(err || !order ? util.successFalse(err) : util.successTrue(order));
+        });
     });
 });
 
@@ -121,6 +141,20 @@ router.put('/order/:id', function(req,res,next){
     });
 });
 
+// 주문메뉴를 삭제한다.
+router.delete('/order/:id', function(req,res,next){
+    Order.findOneAndRemove({_id: req.params.id}).exec(function(err, order) { 
+        res.json(err || !order? util.successFalse(err) : util.successTrue(order));
+    });
+});
+
+router.post('/ordermenu', function(req,res,next){
+    var newOrdermenu = new OrderMenu(req.body);
+    newOrdermenu.save(function(err, ordermenu){
+        res.json(err || !ordermenu ? util.successFalse(err) : util.successTrue(ordermenu));
+    });
+});
+
 router.put('/ordermenu/:id', function(req,res,next){
     OrderMenu.findOne({_id: req.params.id}).exec(function(err, ordermenu){
         if( err || !ordermenu ) 
@@ -139,12 +173,6 @@ router.put('/ordermenu/:id', function(req,res,next){
     });
 });
 
-// 주문메뉴를 삭제한다.
-router.delete('/order/:id', function(req,res,next){
-    Order.findOneAndRemove({_id: req.params.id}).exec(function(err, order) { 
-        res.json(err || !order? util.successFalse(err) : util.successTrue(order));
-    });
-});
 
 router.delete('/ordermenu/:id', function(req,res,next){
     OrderMenu.findOneAndRemove({_id: req.params.id}).exec(function(err, ordermenu) { 

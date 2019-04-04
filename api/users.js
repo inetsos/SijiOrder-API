@@ -20,8 +20,6 @@ router.get('/stores', function(req,res,next){
 router.post('/', function(req,res,next) {
     var newUser = new User(req.body);
     newUser.save(function(err, user) {
-        console.log(err);
-        console.log(user);
         res.json(err||!user? util.successFalse(err): util.successTrue(user));
     });
 });

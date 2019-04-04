@@ -1,9 +1,10 @@
 var express    = require('express');
 var vhost      = require('vhost');
-var app        = express();
 var path       = require('path');
 var mongoose   = require('mongoose');
 var bodyParser = require('body-parser');
+
+var app        = express();
 
 // Database
 console.log(process.env.MONGO_SIJIORDER);
@@ -37,6 +38,7 @@ app.use('/api/orders', require('./api/orders'));
 app.use('/api/fcms', require('./api/fcms'));
 app.use('/api/sms', require('./api/sms'));
 app.use('/chatbot/skill', require('./chatbot/skill'));
+app.use('/api/juso', require('./api/juso'));
 
 app.get("/", function(req, res) {
   res.send("주문할 땐? 시지오더 SiJiOrder !!!");

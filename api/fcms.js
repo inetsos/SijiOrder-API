@@ -7,9 +7,6 @@ var FCMPush = require('fcm-push');
 var serverKey = process.env.FCM_SERVER_KEY;
 var fcmPush = new FCMPush(serverKey);
 
-console.log("1.", serverKey);
-console.log("2.", fcmPush);
-
 // get token
 router.get('/:phone', function(req,res,next) {
     FCM.findOne({phone: req.params.phone}).exec(function(err,fcm) {

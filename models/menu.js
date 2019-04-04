@@ -7,8 +7,7 @@ var menuSchema = mongoose.Schema({
         type:Number,
         required:[true,'메뉴번호를 입력하세요.'],
         match: [/^[0-9]*$/,'숫자만 입력하세요.'],
-        trim:true,        
-        unique:true
+        trim:true
     },
     classify: {
         type:String,
@@ -27,6 +26,9 @@ var menuSchema = mongoose.Schema({
         required:[true,'가격을 입력하세요.'],
         match: [/^[0-9]*$/,'숫자만 입력하세요.'],        
         trim:true
+    },
+    image: {
+        type: Number
     },
     description: {
         type:String,
